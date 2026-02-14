@@ -1,12 +1,19 @@
-// Load books JSON and display
+// Replace <username> and <repo-name> with your GitHub username and repo name
+const jsonUrl = 'https://al-firdous.github.io/books.json';
+
 let books = [];
 
-fetch('books.json')
-  .then(response => response.json())
+// Load books JSON
+fetch(jsonUrl)
+  .then(response => {
+    if (!response.ok) throw new Error('Failed to load JSON');
+    return response.json();
+  })
   .then(data => {
     books = data;
     displayBooks(books);
-  });
+  })
+  .catch(err => console.error(err));
 
 // Display books in list
 function displayBooks(list) {
