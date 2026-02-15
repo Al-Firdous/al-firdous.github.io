@@ -9,7 +9,14 @@
 <body>
   <header>
     <h1>Islamic Digital Library</h1>
+
     <input type="text" id="searchInput" placeholder="Search books by title...">
+    
+    <select id="languageFilter">
+      <option value="">All Languages</option>
+      <!-- Languages will be populated dynamically -->
+    </select>
+
     <button onclick="searchBooks()">Search</button>
   </header>
 
