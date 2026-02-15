@@ -1,37 +1,41 @@
 // ---------------- CONFIG ----------------
-const supabaseUrl = "https://your-project.supabase.co"; // Replace with your Supabase URL
-const supabaseKey = "your-anon-key"; // Replace with your anon key
+const supabaseUrl = "https://dsffwzyvfoshksbjvpwt.supabase.co";
+const supabaseKey = "sb_publishable_Cx2kjary3lueImlzBP0sDQ_vxFeKNzv";
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 // ----------------------------------------
 
 let currentPage = 1;
 const pageSize = 50;
 
-// Populate language dropdown
-async function loadLanguages() {
-  const { data, error } = await supabase
-    .from('languages')
-    .select('*')
-    .order('name');
+// DOM elements
+const searchInput = document.getElementById("searchInput");
+const languageFilter = document.getElementById("languageFilter");
+const resultsDiv = document.getElementById("results");
+const pageInfo = document.getElementById("pageInfo");
+const searchButton = document.getElementById("searchButton");
+const prevButton = document.getElementById("prevButton");
+const nextButton = document.getElementById("nextButton");
 
+// Load language dropdown
+async function loadLanguages() {
+  const { data, error } = await supabase.from("languages").select("*").order("name");
   if (error) {
     console.error("Error loading languages:", error);
     return;
   }
-
-  const select = document.getElementById("languageFilter");
   data.forEach(lang => {
     const option = document.createElement("option");
     option.value = lang.id;
     option.textContent = lang.name;
-    select.appendChild(option);
+    languageFilter.appendChild(option);
   });
 }
 
-// Main search function
+// Search books
 async function searchBooks() {
-  const query = document.getElementById("searchInput").value;
-  const languageId = document.getElementById("languageFilter").value;
+  const query = searchInput.value;
+  const langId = languageFilter.value;
+
   const from = (currentPage - 1) * pageSize;
   const to = from + pageSize - 1;
 
@@ -52,24 +56,22 @@ async function searchBooks() {
     .range(from, to)
     .order("title", { ascending: true });
 
-  if (languageId) {
-    booksQuery = booksQuery.eq("language_id", languageId);
+  if (langId) {
+    booksQuery = booksQuery.eq("language_id", langId);
   }
 
   const { data, error } = await booksQuery;
-
   if (error) {
     console.error("Error fetching books:", error);
     return;
   }
 
   displayResults(data);
-  document.getElementById("pageInfo").textContent = `Page ${currentPage}`;
+  pageInfo.textContent = `Page ${currentPage}`;
 }
 
 // Display results
 function displayResults(books) {
-  const resultsDiv = document.getElementById("results");
   resultsDiv.innerHTML = "";
 
   if (!books || books.length === 0) {
@@ -110,9 +112,10 @@ function prevPage() {
 }
 
 // Event listeners
-document.getElementById("searchInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") searchBooks();
-});
+searchButton.addEventListener("click", () => { currentPage = 1; searchBooks(); });
+prevButton.addEventListener("click", prevPage);
+nextButton.addEventListener("click", nextPage);
+searchInput.addEventListener("keypress", e => { if(e.key === "Enter"){ currentPage=1; searchBooks(); } });
 
 // Initial load
 loadLanguages();

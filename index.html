@@ -4,31 +4,29 @@
   <meta charset="UTF-8">
   <title>Islamic Digital Library</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
   <header>
     <h1>Islamic Digital Library</h1>
 
     <input type="text" id="searchInput" placeholder="Search books by title...">
-    
+
     <select id="languageFilter">
       <option value="">All Languages</option>
-      <!-- Languages will be populated dynamically -->
     </select>
 
-    <button onclick="searchBooks()">Search</button>
+    <button id="searchButton">Search</button>
   </header>
 
   <main>
     <div id="results"></div>
     <div id="pagination">
-      <button onclick="prevPage()">Previous</button>
+      <button id="prevButton">Previous</button>
       <span id="pageInfo">Page 1</span>
-      <button onclick="nextPage()">Next</button>
+      <button id="nextButton">Next</button>
     </div>
   </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
