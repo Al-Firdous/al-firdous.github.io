@@ -8,13 +8,11 @@
 </head>
 <body>
   <button class="theme-toggle" onclick="toggleDarkMode()">🌓 Toggle Theme</button>
-  <button class="navigate-btn" onclick="location.href='/blog'">Blogs</button>
+  <button class="navigate-btn" onclick="location.href='/reports'">Reports</button>
 
   <div class="content">
     {{content}}
   </div>
-
-  <footer>Powered by <strong>mdxpress</strong></footer>
 
   <script>
     if (localStorage.getItem('theme') === 'dark') {
